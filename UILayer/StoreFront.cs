@@ -84,8 +84,7 @@ public class StoreFront
                     break;
             }
 
-            Console.Clear();
-            Console.WriteLine("Welcome");
+            // Console.Clear();
 
             break;
         }
