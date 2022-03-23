@@ -2,7 +2,7 @@
 
 public class StoreFront
 {
-    public static void StoreTitle()
+    private static void StoreTitle()
     {
         Console.WriteLine("================================================================================================================================");
         Console.WriteLine("================================================================================================================================");
@@ -19,7 +19,7 @@ public class StoreFront
         Console.WriteLine("\nWelcome to Telescope Store!\n");
     }
 
-    public static string ValidString()
+    private static string ValidString()
     {
     EnterString:
         string valid = Console.ReadLine() ?? "";
@@ -38,20 +38,14 @@ public class StoreFront
         {
             StoreTitle();
 
-        EnterCommand:
             Console.WriteLine("Enter a command: (S)ign up -- (L)og in -- (E)mployee -- (Q)uit");
-            string input = Console.ReadLine() ?? "";
-
-            if (String.IsNullOrWhiteSpace(input))
-            {
-                Console.WriteLine("Please enter a valid command: (S)ign up -- (L)og in -- (E)mployee -- (Q)uit");
-                goto EnterCommand;
-            }
+            string input = ValidString();
 
             char command = input.Trim().ToUpper()[0];
 
             string username = "";
             string password = "";
+            string passwordConfirm = "";
 
             switch (command)
             {
@@ -61,6 +55,8 @@ public class StoreFront
                     username = ValidString();
                     Console.WriteLine("Password: ");
                     password = ValidString();
+                    Console.WriteLine("Confirm Password:");
+                    passwordConfirm = ValidString();
                     break;
 
                 case ('L'):
