@@ -1,8 +1,9 @@
 ﻿// See https://aka.ms/new-console-template for more information
+namespace UILayer;
 
-public class StoreFront
+public class MainMenu
 {
-    private static void StoreTitle()
+    public void StoreTitle()
     {
         Console.WriteLine("================================================================================================================================");
         Console.WriteLine("================================================================================================================================");
@@ -19,7 +20,7 @@ public class StoreFront
         Console.WriteLine("\nWelcome to Telescope Store!\n");
     }
 
-    private static string ValidString()
+    public string ValidString()
     {
     EnterString:
         string valid = Console.ReadLine() ?? "";
@@ -31,7 +32,7 @@ public class StoreFront
         }
         return valid;
     }
-    public static void Main()
+    public void Start()
     {
         bool exit = false;
         while (!exit)

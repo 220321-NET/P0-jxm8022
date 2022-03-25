@@ -1,4 +1,4 @@
-// namespace Telescopes;
+namespace ModelLayer;
 
 public class Product
 {
