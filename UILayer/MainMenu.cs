@@ -1,4 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
+using ModelLayer;
+
 namespace UILayer;
 
 public class MainMenu
@@ -62,6 +64,7 @@ public class MainMenu
             switch (command)
             {
                 case ('S'):
+                SignUp:
                     Console.WriteLine("Sign Up!");
                     Console.WriteLine("Username: ");
                     username = ValidString();
@@ -69,6 +72,10 @@ public class MainMenu
                     password = ValidString();
                     Console.WriteLine("Confirm Password:");
                     passwordConfirm = ValidString();
+                    if (password == passwordConfirm)
+                    {
+                        new StoreFront().Home();
+                    }
                     break;
 
                 case ('L'):
@@ -95,10 +102,6 @@ public class MainMenu
                     Console.WriteLine("Incorrect command!");
                     break;
             }
-
-            // Console.Clear();
-
-            break;
         }
     }
 }
