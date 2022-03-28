@@ -4,23 +4,26 @@ public class Customer
 {
     public Customer()
     {
-        _firstName = "";
+        _username = "";
     }
 
-    public Customer(string firstName)
+    public Customer(string username)
     {
-        _firstName = firstName;
+        _username = username;
     }
-    private string _firstName;
-    public string FirstName
+    private string _username;
+    private bool _employee = false;
+    public string UserName
     {
         get
         {
-            return _firstName;
+            return _username;
         }
         set
         {
-            _firstName = value;
+            _username = value;
         }
     }
+    public bool Employee { get; set; }
+    public List<Order> Orders { get; set; }
 }
