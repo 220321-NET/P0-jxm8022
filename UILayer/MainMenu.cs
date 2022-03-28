@@ -3,6 +3,9 @@ namespace UILayer;
 
 public class MainMenu
 {
+    /// <summary>
+    /// Method to hold the title of the store(Telescope Store). Used to spice things up.
+    /// </summary>
     public void StoreTitle()
     {
         Console.WriteLine("================================================================================================================================");
@@ -20,6 +23,10 @@ public class MainMenu
         Console.WriteLine("\nWelcome to Telescope Store!\n");
     }
 
+    /// <summary>
+    /// Method to check if user input is valid. An invalid string is null or whitespace;
+    /// </summary>
+    /// <returns>string</returns>
     public string ValidString()
     {
     EnterString:
@@ -32,6 +39,10 @@ public class MainMenu
         }
         return valid;
     }
+
+    /// <summary>
+    /// Method to start the store application. This is the entrance to the telescope store.
+    /// </summary>
     public void Start()
     {
         bool exit = false;
