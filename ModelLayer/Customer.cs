@@ -25,5 +25,5 @@ public class Customer
         }
     }
     public bool Employee { get; set; }
-    public List<Order> Orders { get; set; }
+    public List<Order> Orders { get; set; } = new List<Order>();
 }
