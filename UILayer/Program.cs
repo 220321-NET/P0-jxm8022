@@ -9,6 +9,6 @@ public class Program
 
         IRepository repo = new DBRepository(connectionString);
         IBusiness bl = new Business(repo);
-        new MainMenu().Start();
+        new MainMenu(bl).Start();
     }
 }
