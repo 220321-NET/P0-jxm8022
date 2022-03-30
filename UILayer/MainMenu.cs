@@ -3,6 +3,11 @@ namespace UILayer;
 
 public class MainMenu
 {
+    private readonly IBusiness _bl;
+    public MainMenu(IBusiness bl)
+    {
+        _bl = bl;
+    }
     /// <summary>
     /// Method to hold the title of the store(Telescope Store). Used to spice things up.
     /// </summary>
