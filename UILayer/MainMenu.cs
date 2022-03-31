@@ -84,16 +84,7 @@ public class MainMenu
                 {
                     Customer customer = new Customer();
                     customer.UserName = username;
-                    Console.WriteLine("Do you work here?");
-                    if (ValidString().Trim().ToUpper()[0] == 'Y')
-                    {
-                        customer.Employee = true;
-                        new StoreFront(customer).Home();
-                    }
-                    else
-                    {
-                        new StoreFront(customer).Home();
-                    }
+                    _bl.AddCustomer(customer);
                     exit = true;
                 }
                 else
