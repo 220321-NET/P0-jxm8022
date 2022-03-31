@@ -34,10 +34,60 @@ public class MainMenu
     public void Start()
     {
         bool exit = false;
+
         while (!exit)
         {
             StoreTitle();
-            exit = AccountInput(exit);
+
+            Console.WriteLine("Enter a command: (S)ign up -- (L)og in -- (E)mployee -- (Q)uit");
+            string input = ValidString();
+
+            char command = input.Trim().ToUpper()[0];
+
+            switch (command)
+            {
+                case ('S'):
+                    SignUp();
+                    break;
+
+                case ('L'):
+                    Console.WriteLine("Login!");
+                    break;
+
+                case ('E'):
+                    Console.WriteLine("Employee Login!");
+                    break;
+
+                case ('Q'):
+                    exit = true;
+                    break;
+
+                default:
+                    Console.WriteLine("Incorrect command!");
+                    break;
+            }
+        }
+    }
+
+    public void SignUp()
+    {
+        string username;
+
+        Console.WriteLine("Sign Up!");
+        Console.WriteLine("Username: ");
+        username = ValidString();
+    SignUp:
+        Console.WriteLine("Confirm username:");
+        if (username == ValidString())
+        {
+            Customer customer = new Customer();
+            customer.UserName = username;
+            _bl.AddCustomer(customer);
+        }
+        else
+        {
+            Console.WriteLine("Username does not match!");
+            goto SignUp;
         }
     }
 
@@ -56,69 +106,5 @@ public class MainMenu
             goto EnterString;
         }
         return valid;
-    }
-
-    public bool AccountInput(bool exit)
-    {
-        Console.WriteLine("Enter a command: (S)ign up -- (L)og in -- (E)mployee -- (Q)uit");
-        string input = ValidString();
-
-        char command = input.Trim().ToUpper()[0];
-
-        string username = "";
-        string password = "";
-        string passwordConfirm = "";
-
-        switch (command)
-        {
-            case ('S'):
-            SignUp:
-                Console.WriteLine("Sign Up!");
-                Console.WriteLine("Username: ");
-                username = ValidString();
-                Console.WriteLine("Password: ");
-                password = ValidString();
-                Console.WriteLine("Confirm Password:");
-                passwordConfirm = ValidString();
-                if (password == passwordConfirm)
-                {
-                    Customer customer = new Customer();
-                    customer.UserName = username;
-                    _bl.AddCustomer(customer);
-                    exit = true;
-                }
-                else
-                {
-                    goto SignUp;
-                }
-                break;
-
-            case ('L'):
-                Console.WriteLine("Log In!");
-                Console.WriteLine("Username: ");
-                username = ValidString();
-                Console.WriteLine("Password: ");
-                password = ValidString();
-                // new StoreFront().Home();
-                break;
-
-            case ('E'):
-                Console.WriteLine("Employee Log In!");
-                Console.WriteLine("Username: ");
-                username = ValidString();
-                Console.WriteLine("Password: ");
-                password = ValidString();
-                // new StoreFront().Home();
-                break;
-
-            case ('Q'):
-                exit = true;
-                break;
-
-            default:
-                Console.WriteLine("Incorrect command!");
-                break;
-        }
-        return exit;
     }
 }
