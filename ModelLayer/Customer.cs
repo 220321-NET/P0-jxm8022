@@ -24,6 +24,6 @@ public class Customer
             _username = value;
         }
     }
-    public bool Employee { get; set; }
+    public bool Employee { get; set; } = false;
     public List<Order> Orders { get; set; } = new List<Order>();
 }
