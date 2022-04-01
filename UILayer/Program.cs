@@ -5,10 +5,6 @@ public class Program
 {
     public static void Main(String[] args)
     {
-        string connectionString = File.ReadAllText("./connectionString.txt");
-
-        IRepository repo = new DBRepository(connectionString);
-        IBusiness bl = new Business(repo);
-        new MainMenu(bl).Start();
+        MenuFactory.GetMenu("main").Start();
     }
 }
