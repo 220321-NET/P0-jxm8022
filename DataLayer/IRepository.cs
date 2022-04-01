@@ -1,6 +1,6 @@
 ﻿namespace DataLayer;
 public interface IRepository
 {
-    void AddCustomer();
-    void GetCustomer(string username);
+    void AddCustomer(Customer customer);
+    Customer GetCustomer(string username);
 }

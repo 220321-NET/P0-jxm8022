@@ -1,9 +1,18 @@
 namespace ModelLayer;
 
-public static class Customer
+public class Customer
 {
-    public static string _username = "";
-    public static string UserName
+    public Customer()
+    {
+        _username = "";
+    }
+
+    public Customer(string username)
+    {
+        _username = username;
+    }
+    private string _username;
+    public string UserName
     {
         get
         {
@@ -14,7 +23,7 @@ public static class Customer
             _username = value;
         }
     }
-    public static bool Employee { get; set; } = false;
-    public static int EmployeeID { get; set; }
-    public static List<Order> Orders { get; set; } = new List<Order>();
+    public bool Employee { get; set; } = false;
+    public int EmployeeID { get; set; }
+    public List<Order> Orders { get; set; } = new List<Order>();
 }

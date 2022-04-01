@@ -2,6 +2,6 @@ namespace BusinessLayer;
 
 public interface IBusiness
 {
-    void AddCustomer();
-    void GetCustomer(string username);
+    void AddCustomer(Customer customer);
+    Customer GetCustomer(string username);
 }
