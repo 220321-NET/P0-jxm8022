@@ -1,7 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 namespace UILayer;
 
-public class MainMenu
+public class MainMenu : IMenu
 {
     private readonly IBusiness _bl;
     public MainMenu(IBusiness bl)
@@ -35,10 +35,10 @@ public class MainMenu
     {
         bool exit = false;
 
+        StoreTitle();
+
         while (!exit)
         {
-            StoreTitle();
-
             Console.WriteLine("Enter a command: (S)ign up -- (L)og in -- (E)mployee -- (Q)uit");
             string input = ValidString();
 
@@ -109,7 +109,6 @@ public class MainMenu
         string username;
 
         Console.WriteLine("Log In!");
-    NotAUser:
         Console.WriteLine("Username: ");
         username = ValidString();
     Login:
@@ -121,9 +120,7 @@ public class MainMenu
             if (customer == null)
             {
                 Console.WriteLine("Customer does not exists!");
-                goto NotAUser;
             }
-            Console.WriteLine($"Welcome {customer.UserName}");
         }
         else
         {
@@ -137,7 +134,6 @@ public class MainMenu
         string username;
 
         Console.WriteLine("Employee Log In!");
-    NotEmployee:
         Console.WriteLine("Username: ");
         username = ValidString();
     Login:
@@ -149,7 +145,6 @@ public class MainMenu
             if (customer == null)
             {
                 Console.WriteLine("Employee does not exists!");
-                goto NotEmployee;
             }
             else if (customer.Employee)
             {
@@ -158,7 +153,6 @@ public class MainMenu
             else
             {
                 Console.WriteLine("User is not an employee!");
-                goto NotEmployee;
             }
         }
         else
