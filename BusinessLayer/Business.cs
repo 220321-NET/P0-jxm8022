@@ -13,4 +13,9 @@ public class Business : IBusiness
     {
         _repo.AddCustomer(customer);
     }
+
+    public Customer GetCustomer(string username)
+    {
+        return _repo.GetCustomer(username);
+    }
 }

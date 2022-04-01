@@ -12,7 +12,6 @@ public class Customer
         _username = username;
     }
     private string _username;
-    private bool _employee = false;
     public string UserName
     {
         get
@@ -25,5 +24,6 @@ public class Customer
         }
     }
     public bool Employee { get; set; } = false;
+    public int EmployeeID { get; set; }
     public List<Order> Orders { get; set; } = new List<Order>();
 }
