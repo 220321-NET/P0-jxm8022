@@ -38,4 +38,28 @@ public class DBRepository : IRepository
             customerAdapter.Update(customerTable);
         }
     }
+
+    public Customer GetCustomer(string username)
+    {
+        DataSet customerSet = new DataSet();
+
+        using SqlConnection connection = new SqlConnection(_connectionString);
+        using SqlCommand cmd = new SqlCommand("SELECT * FROM Customer WHERE Username = @username", connection);
+        cmd.Parameters.AddWithValue("@username", username);
+
+        SqlDataAdapter customerAdapter = new SqlDataAdapter(cmd);
+
+        customerAdapter.Fill(customerSet, "CustomerTable");
+
+        DataTable? customerTable = customerSet.Tables["CustomerTable"];
+        if (customerTable != null && customerTable.Rows.Count > 0)
+        {
+            Customer customer = new Customer();
+            customer.EmployeeID = (int)customerTable.Rows[0]["CustomerID"];
+            customer.UserName = (string)customerTable.Rows[0]["Username"];
+            customer.Employee = (bool)customerTable.Rows[0]["IsEmployee"];
+            return customer;
+        }
+        return null!;
+    }
 }
