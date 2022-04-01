@@ -1,7 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 namespace UILayer;
 
-public class MainMenu
+public class MainMenu : IMenu
 {
     private readonly IBusiness _bl;
     public MainMenu(IBusiness bl)
@@ -83,11 +83,12 @@ public class MainMenu
         Console.WriteLine("Confirm username:");
         if (username == ValidString())
         {
-            if (_bl.GetCustomer(username) == null)
+            _bl.GetCustomer(username);
+            if (Customer.UserName == "")
             {
-                Customer customer = new Customer();
-                customer.UserName = username;
-                _bl.AddCustomer(customer);
+                Customer.UserName = username;
+                _bl.AddCustomer();
+                MenuFactory.GetMenu("HomeMenu").Start();
             }
             else
             {
@@ -116,14 +117,14 @@ public class MainMenu
         Console.WriteLine("Confirm username:");
         if (username == ValidString())
         {
-            Customer customer = new Customer();
-            customer = _bl.GetCustomer(username);
-            if (customer == null)
+            _bl.GetCustomer(username);
+            if (Customer.UserName == "")
             {
                 Console.WriteLine("Customer does not exists!");
                 goto NotAUser;
             }
-            Console.WriteLine($"Welcome {customer.UserName}");
+            Console.WriteLine($"Welcome {Customer.UserName}");
+            MenuFactory.GetMenu("HomeMenu").Start();
         }
         else
         {
@@ -144,16 +145,15 @@ public class MainMenu
         Console.WriteLine("Confirm username:");
         if (username == ValidString())
         {
-            Customer customer = new Customer();
-            customer = _bl.GetCustomer(username);
-            if (customer == null)
+            _bl.GetCustomer(username);
+            if (Customer.UserName == "")
             {
                 Console.WriteLine("Employee does not exists!");
                 goto NotEmployee;
             }
-            else if (customer.Employee)
+            else if (Customer.Employee)
             {
-                Console.WriteLine($"Welcome {customer.UserName}");
+                Console.WriteLine($"Welcome {Customer.UserName}");
             }
             else
             {

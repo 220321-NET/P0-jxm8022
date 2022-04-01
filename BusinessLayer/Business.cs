@@ -9,13 +9,13 @@ public class Business : IBusiness
         _repo = repo;
     }
 
-    public void AddCustomer(Customer customer)
+    public void AddCustomer()
     {
-        _repo.AddCustomer(customer);
+        _repo.AddCustomer();
     }
 
-    public Customer GetCustomer(string username)
+    public void GetCustomer(string username)
     {
-        return _repo.GetCustomer(username);
+        _repo.GetCustomer(username);
     }
 }

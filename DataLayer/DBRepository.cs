@@ -11,7 +11,7 @@ public class DBRepository : IRepository
         _connectionString = connectionString;
     }
 
-    public void AddCustomer(Customer customer)
+    public void AddCustomer()
     {
         DataSet customerSet = new DataSet();
 
@@ -26,7 +26,7 @@ public class DBRepository : IRepository
         if (customerTable != null)
         {
             DataRow newRow = customerTable.NewRow();
-            newRow["Username"] = customer.UserName;
+            newRow["Username"] = Customer.UserName;
 
             customerTable.Rows.Add(newRow);
 
@@ -39,7 +39,7 @@ public class DBRepository : IRepository
         }
     }
 
-    public Customer GetCustomer(string username)
+    public void GetCustomer(string username)
     {
         DataSet customerSet = new DataSet();
 
@@ -54,12 +54,9 @@ public class DBRepository : IRepository
         DataTable? customerTable = customerSet.Tables["CustomerTable"];
         if (customerTable != null && customerTable.Rows.Count > 0)
         {
-            Customer customer = new Customer();
-            customer.EmployeeID = (int)customerTable.Rows[0]["CustomerID"];
-            customer.UserName = (string)customerTable.Rows[0]["Username"];
-            customer.Employee = (bool)customerTable.Rows[0]["IsEmployee"];
-            return customer;
+            Customer.EmployeeID = (int)customerTable.Rows[0]["CustomerID"];
+            Customer.UserName = (string)customerTable.Rows[0]["Username"];
+            Customer.Employee = (bool)customerTable.Rows[0]["IsEmployee"];
         }
-        return null!;
     }
 }
