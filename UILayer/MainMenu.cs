@@ -102,6 +102,7 @@ public class MainMenu
         string username;
 
         Console.WriteLine("Log In!");
+    NotAUser:
         Console.WriteLine("Username: ");
         username = ValidString();
     SignUp:
@@ -110,6 +111,12 @@ public class MainMenu
         {
             Customer customer = new Customer();
             customer = _bl.GetCustomer(username);
+            if (customer == null)
+            {
+                Console.WriteLine("Customer does not exists!");
+                goto NotAUser;
+            }
+            Console.WriteLine($"Welcome {customer.UserName}");
         }
         else
         {
