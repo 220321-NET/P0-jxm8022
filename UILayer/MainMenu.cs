@@ -83,9 +83,16 @@ public class MainMenu
         Console.WriteLine("Confirm username:");
         if (username == ValidString())
         {
-            Customer customer = new Customer();
-            customer.UserName = username;
-            _bl.AddCustomer(customer);
+            if (_bl.GetCustomer(username) == null)
+            {
+                Customer customer = new Customer();
+                customer.UserName = username;
+                _bl.AddCustomer(customer);
+            }
+            else
+            {
+                Console.WriteLine("User already exists!");
+            }
         }
         else
         {
