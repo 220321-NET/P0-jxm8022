@@ -51,7 +51,7 @@ public class MainMenu
                     break;
 
                 case ('L'):
-                    Console.WriteLine("Login!");
+                    Login();
                     break;
 
                 case ('E'):
@@ -69,6 +69,9 @@ public class MainMenu
         }
     }
 
+    /// <summary>
+    /// Method to handle sign up when there is a new user
+    /// </summary>
     public void SignUp()
     {
         string username;
@@ -83,6 +86,30 @@ public class MainMenu
             Customer customer = new Customer();
             customer.UserName = username;
             _bl.AddCustomer(customer);
+        }
+        else
+        {
+            Console.WriteLine("Username does not match!");
+            goto SignUp;
+        }
+    }
+
+    /// <summary>
+    /// Method to handle log in when existing user returns
+    /// </summary>
+    public void Login()
+    {
+        string username;
+
+        Console.WriteLine("Log In!");
+        Console.WriteLine("Username: ");
+        username = ValidString();
+    SignUp:
+        Console.WriteLine("Confirm username:");
+        if (username == ValidString())
+        {
+            Customer customer = new Customer();
+            customer = _bl.GetCustomer(username);
         }
         else
         {
