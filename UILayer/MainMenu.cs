@@ -55,7 +55,7 @@ public class MainMenu
                     break;
 
                 case ('E'):
-                    Console.WriteLine("Employee Login!");
+                    EmployeeLogin();
                     break;
 
                 case ('Q'):
@@ -112,7 +112,7 @@ public class MainMenu
     NotAUser:
         Console.WriteLine("Username: ");
         username = ValidString();
-    SignUp:
+    Login:
         Console.WriteLine("Confirm username:");
         if (username == ValidString())
         {
@@ -128,7 +128,43 @@ public class MainMenu
         else
         {
             Console.WriteLine("Username does not match!");
-            goto SignUp;
+            goto Login;
+        }
+    }
+
+    public void EmployeeLogin()
+    {
+        string username;
+
+        Console.WriteLine("Employee Log In!");
+    NotEmployee:
+        Console.WriteLine("Username: ");
+        username = ValidString();
+    Login:
+        Console.WriteLine("Confirm username:");
+        if (username == ValidString())
+        {
+            Customer customer = new Customer();
+            customer = _bl.GetCustomer(username);
+            if (customer == null)
+            {
+                Console.WriteLine("Employee does not exists!");
+                goto NotEmployee;
+            }
+            else if (customer.Employee)
+            {
+                Console.WriteLine($"Welcome {customer.UserName}");
+            }
+            else
+            {
+                Console.WriteLine("User is not an employee!");
+                goto NotEmployee;
+            }
+        }
+        else
+        {
+            Console.WriteLine("Username does not match!");
+            goto Login;
         }
     }
 
