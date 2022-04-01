@@ -1,4 +1,5 @@
 using Microsoft.Data.SqlClient;
+using System.Data;
 
 namespace DataLayer;
 public class DBRepository : IRepository
@@ -12,25 +13,29 @@ public class DBRepository : IRepository
 
     public void AddCustomer(Customer customer)
     {
-        SqlConnection connection = new SqlConnection(_connectionString);
-        connection.Open();
+        DataSet customerSet = new DataSet();
 
-        SqlCommand cmd = new SqlCommand(@"INSERT INTO Customers(Username)
-            VALUES(" + customer.UserName + ")", connection);
+        using SqlConnection connection = new SqlConnection(_connectionString);
+        using SqlCommand cmd = new SqlCommand("SELECT Username FROM Customer WHERE CustomerID = -1", connection);
 
-        try
+        SqlDataAdapter customerAdapter = new SqlDataAdapter(cmd);
+
+        customerAdapter.Fill(customerSet, "CustomerTable");
+
+        DataTable? customerTable = customerSet.Tables["CustomerTable"];
+        if (customerTable != null)
         {
-            cmd.ExecuteNonQuery();
-        }
-        catch (Exception e)
-        {
-            cmd = new SqlCommand(@"CREATE TABLE Customer(
-                CustomerID INT PRIMARY KEY IDENTITY(1,1),
-                Username VARCHAR(30) NOT NULL UNIQUE,
-                IsEmployee BIT DEFAULT 0
-            )");
-        }
+            DataRow newRow = customerTable.NewRow();
+            newRow["Username"] = customer.UserName;
 
-        connection.Close();
+            customerTable.Rows.Add(newRow);
+
+            SqlCommandBuilder commandBuilder = new SqlCommandBuilder(customerAdapter);
+            SqlCommand insert = commandBuilder.GetInsertCommand();
+
+            customerAdapter.InsertCommand = insert;
+
+            customerAdapter.Update(customerTable);
+        }
     }
 }
