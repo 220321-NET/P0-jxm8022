@@ -19,9 +19,9 @@ public class Business : IBusiness
         return _repo.GetCustomer(username);
     }
 
-    public void AddStore(StoreFront storeFront)
+    public void AddStore(StoreFront store)
     {
-        _repo.AddStore(storeFront);
+        _repo.AddStore(store);
     }
 
     public StoreFront GetStore(string city)

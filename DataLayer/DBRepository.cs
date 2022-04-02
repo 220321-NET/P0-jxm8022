@@ -63,9 +63,33 @@ public class DBRepository : IRepository
         return null!;
     }
 
-    public void AddStore(StoreFront storeFront)
+    public void AddStore(StoreFront store)
     {
+        DataSet storeSet = new DataSet();
 
+        using SqlConnection connection = new SqlConnection(_connectionString);
+        using SqlCommand cmd = new SqlCommand("SELECT City, State FROM Store WHERE StoreID = -1", connection);
+
+        SqlDataAdapter storeAdapter = new SqlDataAdapter(cmd);
+
+        storeAdapter.Fill(storeSet, "StoreTable");
+
+        DataTable? storeTable = storeSet.Tables["StoreTable"];
+        if (storeTable != null)
+        {
+            DataRow newRow = storeTable.NewRow();
+            newRow["City"] = store.City;
+            newRow["State"] = store.State;
+
+            storeTable.Rows.Add(newRow);
+
+            SqlCommandBuilder commandBuilder = new SqlCommandBuilder(storeAdapter);
+            SqlCommand insert = commandBuilder.GetInsertCommand();
+
+            storeAdapter.InsertCommand = insert;
+
+            storeAdapter.Update(storeTable);
+        }
     }
 
     public StoreFront GetStore(string city)

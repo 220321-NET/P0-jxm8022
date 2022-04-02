@@ -88,7 +88,11 @@ public class ManagerMenu : IMenu
 
         if (_bl.GetStore(city) == null)
         {
-            StoreFront store = new StoreFront();
+            StoreFront store = new StoreFront
+            {
+                City = city,
+                State = state
+            };
             _bl.AddStore(store);
         }
         else
