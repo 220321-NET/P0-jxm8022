@@ -17,6 +17,10 @@ public static class MenuFactory
                 return new MainMenu(bl);
             case "home":
                 return new HomeMenu(bl);
+            case "manager":
+                return new ManagerMenu(bl);
+            case "store":
+                return new StoreMenu(bl);
             default:
                 return new MainMenu(bl);
         }
