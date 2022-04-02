@@ -19,6 +19,16 @@ public class Business : IBusiness
         return _repo.GetCustomer(username);
     }
 
+    public List<Customer> GetAllCustomers(bool employee)
+    {
+        return _repo.GetAllCustomers(employee);
+    }
+
+    public void UpdateCustomer(Customer customer)
+    {
+        _repo.UpdateCustomer(customer);
+    }
+
     public void AddStore(StoreFront store)
     {
         _repo.AddStore(store);
