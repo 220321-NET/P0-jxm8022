@@ -40,7 +40,7 @@ public class MainMenu : IMenu
         while (!exit)
         {
             Console.WriteLine("Enter a command: (S)ign up -- (L)og in -- (E)mployee -- (Q)uit");
-            string input = ValidString();
+            string input = InputValidation.ValidString();
 
             char command = input.Trim().ToUpper()[0];
 
@@ -78,10 +78,10 @@ public class MainMenu : IMenu
 
         Console.WriteLine("Sign Up!");
         Console.WriteLine("Username: ");
-        username = ValidString();
+        username = InputValidation.ValidString();
     SignUp:
         Console.WriteLine("Confirm username:");
-        if (username == ValidString())
+        if (username == InputValidation.ValidString())
         {
             if (_bl.GetCustomer(username) == null)
             {
@@ -110,10 +110,10 @@ public class MainMenu : IMenu
 
         Console.WriteLine("Log In!");
         Console.WriteLine("Username: ");
-        username = ValidString();
+        username = InputValidation.ValidString();
     Login:
         Console.WriteLine("Confirm username:");
-        if (username == ValidString())
+        if (username == InputValidation.ValidString())
         {
             Customer customer = new Customer();
             customer = _bl.GetCustomer(username);
@@ -135,10 +135,10 @@ public class MainMenu : IMenu
 
         Console.WriteLine("Employee Log In!");
         Console.WriteLine("Username: ");
-        username = ValidString();
+        username = InputValidation.ValidString();
     Login:
         Console.WriteLine("Confirm username:");
-        if (username == ValidString())
+        if (username == InputValidation.ValidString())
         {
             Customer customer = new Customer();
             customer = _bl.GetCustomer(username);
@@ -148,7 +148,7 @@ public class MainMenu : IMenu
             }
             else if (customer.Employee)
             {
-                Console.WriteLine($"Welcome {customer.UserName}");
+                MenuFactory.GetMenu("manager").Start();
             }
             else
             {
@@ -160,22 +160,5 @@ public class MainMenu : IMenu
             Console.WriteLine("Username does not match!");
             goto Login;
         }
-    }
-
-    /// <summary>
-    /// Method to check if user input is valid. An invalid string is null or whitespace;
-    /// </summary>
-    /// <returns>string</returns>
-    public string ValidString()
-    {
-    EnterString:
-        string valid = Console.ReadLine() ?? "";
-
-        if (String.IsNullOrWhiteSpace(valid))
-        {
-            Console.WriteLine("Enter a valid input: ");
-            goto EnterString;
-        }
-        return valid;
     }
 }
