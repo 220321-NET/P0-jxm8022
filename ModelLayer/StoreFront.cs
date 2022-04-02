@@ -2,32 +2,11 @@
 
 public class StoreFront
 {
-    public StoreFront(Customer customer)
-    {
-        _customer = customer;
-    }
-    private Customer _customer;
-    public Customer User
-    {
-        get => _customer;
-        set
-        {
-            _customer = value;
-        }
-    }
-    public void Home()
-    {
-        Console.Clear();
-        Greeting();
-    }
+    public int StoreID { get; set; }
 
-    public void DisplayProducts()
-    {
-        //call business layer
-    }
+    public string City { get; set; } = "";
 
-    public void Greeting()
-    {
-        Console.WriteLine($"Greetings {User.UserName}!");
-    }
+    public string State { get; set; } = "";
+
+    List<Product> Inventory { get; set; } = new List<Product>();
 }
