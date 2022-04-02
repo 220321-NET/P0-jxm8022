@@ -18,4 +18,19 @@ public class Business : IBusiness
     {
         return _repo.GetCustomer(username);
     }
+
+    public void AddStore(StoreFront storeFront)
+    {
+        _repo.AddStore(storeFront);
+    }
+
+    public StoreFront GetStore(string city)
+    {
+        return _repo.GetStore(city);
+    }
+
+    public List<StoreFront> GetStoreFronts()
+    {
+        return _repo.GetStoreFronts();
+    }
 }

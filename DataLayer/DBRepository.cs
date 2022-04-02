@@ -62,4 +62,64 @@ public class DBRepository : IRepository
         }
         return null!;
     }
+
+    public void AddStore(StoreFront storeFront)
+    {
+
+    }
+
+    public StoreFront GetStore(string city)
+    {
+        DataSet storeSet = new DataSet();
+
+        using SqlConnection connection = new SqlConnection(_connectionString);
+        using SqlCommand cmd = new SqlCommand("SELECT * FROM Store WHERE City = @city", connection);
+        cmd.Parameters.AddWithValue("@city", city);
+
+        SqlDataAdapter storeAdapter = new SqlDataAdapter(cmd);
+
+        storeAdapter.Fill(storeSet, "storeTable");
+
+        DataTable? storeTable = storeSet.Tables["storeTable"];
+        if (storeTable != null && storeTable.Rows.Count > 0)
+        {
+            return new StoreFront
+            {
+                StoreID = (int)storeTable.Rows[0]["StoreID"],
+                City = (string)storeTable.Rows[0]["City"],
+                State = (string)storeTable.Rows[0]["State"]
+            };
+        }
+        return null!;
+    }
+
+    public List<StoreFront> GetStoreFronts()
+    {
+        List<StoreFront> storeFronts = new List<StoreFront>();
+        DataSet storeSet = new DataSet();
+
+        using SqlConnection connection = new SqlConnection(_connectionString);
+        using SqlCommand cmd = new SqlCommand("SELECT * FROM Store", connection);
+
+        SqlDataAdapter storeAdapter = new SqlDataAdapter(cmd);
+
+        storeAdapter.Fill(storeSet, "StoreTable");
+
+        DataTable? storeTable = storeSet.Tables["StoreTable"];
+        if (storeTable != null && storeTable.Rows.Count > 0)
+        {
+            foreach (DataRow row in storeTable.Rows)
+            {
+                StoreFront store = new StoreFront
+                {
+                    StoreID = (int)row["StoreID"],
+                    City = (string)row["City"],
+                    State = (string)row["State"]
+                };
+                storeFronts.Add(store);
+            }
+            return storeFronts;
+        }
+        return null!;
+    }
 }
