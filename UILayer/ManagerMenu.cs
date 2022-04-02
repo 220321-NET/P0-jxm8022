@@ -106,9 +106,46 @@ public class ManagerMenu : IMenu
 
     }
 
+    public Customer SelectEmployee(bool employee)
+    {
+        Console.WriteLine("Select a person!");
+
+        List<Customer> customers = _bl.GetAllCustomers(employee);
+
+        if (customers == null || customers.Count == 0)
+        {
+            Console.WriteLine("There are no customers!");
+            return null!;
+        }
+
+    SelectEmployee:
+        for (int i = 0; i < customers.Count; i++)
+        {
+            Console.WriteLine($"[{i}] {customers[i].UserName}");
+        }
+
+        int index;
+
+        if (Int32.TryParse(Console.ReadLine(), out index) && (index >= 0 && index < customers.Count))
+        {
+            return customers[index];
+        }
+        else
+        {
+            Console.WriteLine("Enter a valid index!");
+            goto SelectEmployee;
+        }
+    }
+
     public void AddEmployee()
     {
-
+        bool employee = false;
+        Console.WriteLine("Adding an employee!");
+        Customer customer = SelectEmployee(employee);
+        if (customer != null)
+        {
+            _bl.UpdateCustomer(customer);
+        }
     }
 
     public void RemoveEmployee()
