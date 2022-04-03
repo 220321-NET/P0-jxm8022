@@ -150,6 +150,12 @@ public class ManagerMenu : IMenu
 
     public void RemoveEmployee()
     {
-
+        bool employee = true;
+        Console.WriteLine("Removing an employee!");
+        Customer customer = SelectEmployee(employee);
+        if (customer != null)
+        {
+            _bl.UpdateCustomer(customer);
+        }
     }
 }

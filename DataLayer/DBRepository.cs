@@ -79,7 +79,7 @@ public class DBRepository : IRepository
         if (customerTable != null && customerTable.Rows.Count > 0)
         {
             DataColumn[] dt = new DataColumn[1];
-            dt[0] = customerTable.Columns["CustomerID"];
+            dt[0] = customerTable.Columns["CustomerID"]!;
             customerTable.PrimaryKey = dt;
             DataRow? customerRow = customerTable.Rows.Find(customer.CustomerID);
             if (customerRow != null)
