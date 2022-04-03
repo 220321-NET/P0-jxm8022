@@ -103,7 +103,12 @@ public class ManagerMenu : IMenu
 
     public void AddInventory()
     {
-
+        Console.WriteLine("Adding inventory to store!");
+        StoreFront store = SelectStore();
+        if (store != null)
+        {
+            MenuFactory.GetMenu("store").Start();
+        }
     }
 
     public Customer SelectEmployee(bool employee)
