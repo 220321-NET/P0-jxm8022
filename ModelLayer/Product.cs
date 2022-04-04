@@ -24,5 +24,6 @@ public class Product
         }
     }
     public decimal ProductPrice { get; set; }
-    public int ProductStock { get; set; }
+    public int ProductQuantity { get; set; }
+    public int ProductID { get; set; }
 }
