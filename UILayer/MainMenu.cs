@@ -103,6 +103,7 @@ public class MainMenu : IMenu
                 Customer customer = new Customer();
                 customer.UserName = username;
                 _bl.AddCustomer(customer);
+                MenuFactory.GetMenu("home").Start(customer);
             }
             else
             {
