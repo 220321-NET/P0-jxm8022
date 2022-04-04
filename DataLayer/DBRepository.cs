@@ -209,4 +209,194 @@ public class DBRepository : IRepository
         }
         return null!;
     }
+
+    public void AddProduct(Product product)
+    {
+        DataSet productSet = new DataSet();
+
+        using SqlConnection connection = new SqlConnection(_connectionString);
+        using SqlCommand cmd = new SqlCommand("SELECT Name, Price FROM Product WHERE ProductID = -1", connection);
+
+        SqlDataAdapter productAdapter = new SqlDataAdapter(cmd);
+
+        productAdapter.Fill(productSet, "ProductTable");
+
+        DataTable? productTable = productSet.Tables["ProductTable"];
+        if (productTable != null)
+        {
+            DataRow newRow = productTable.NewRow();
+            newRow["Name"] = product.ProductName;
+            newRow["Price"] = product.ProductPrice;
+
+            productTable.Rows.Add(newRow);
+
+            SqlCommandBuilder commandBuilder = new SqlCommandBuilder(productAdapter);
+            SqlCommand insert = commandBuilder.GetInsertCommand();
+
+            productAdapter.InsertCommand = insert;
+
+            productAdapter.Update(productTable);
+        }
+    }
+
+    public void AddProduct(Product product, StoreFront store)
+    {
+        // get productID
+        int amount = product.ProductQuantity;
+        product = GetProduct(product.ProductName);
+        if (product != null)
+        {
+            product.ProductQuantity = amount;
+            if (PreviousInventory(product.ProductID) != -1)
+            {
+                product.ProductQuantity += PreviousInventory(product.ProductID);
+                UpdateInventory(product);
+            }
+            else
+            {
+                AddInventory(product, store);
+            }
+        }
+        else
+        {
+            Console.WriteLine("Could not add to inventory new product!");
+        }
+    }
+
+    public int PreviousInventory(int id)
+    {
+        DataSet inventorySet = new DataSet();
+
+        using SqlConnection connection = new SqlConnection(_connectionString);
+        using SqlCommand cmd = new SqlCommand("SELECT * FROM Inventory WHERE ProductID = @id", connection);
+        cmd.Parameters.AddWithValue("@id", id);
+
+        SqlDataAdapter inventoryAdapter = new SqlDataAdapter(cmd);
+
+        inventoryAdapter.Fill(inventorySet, "InventoryTable");
+
+        DataTable? inventoryTable = inventorySet.Tables["InventoryTable"];
+        if (inventoryTable != null && inventoryTable.Rows.Count > 0)
+        {
+            return (int)inventoryTable.Rows[0]["Quantity"];
+        }
+        return -1;
+    }
+
+    public void UpdateInventory(Product product)
+    {
+        DataSet inventorySet = new DataSet();
+
+        using SqlConnection connection = new SqlConnection(_connectionString);
+        using SqlCommand cmd = new SqlCommand("SELECT * FROM Inventory WHERE ProductID = @id", connection);
+        cmd.Parameters.AddWithValue("@id", product.ProductID);
+
+        SqlDataAdapter inventoryAdapter = new SqlDataAdapter(cmd);
+
+        inventoryAdapter.Fill(inventorySet, "InventoryTable");
+
+        DataTable? inventoryTable = inventorySet.Tables["InventoryTable"];
+        if (inventoryTable != null && inventoryTable.Rows.Count > 0)
+        {
+            DataColumn[] dt = new DataColumn[1];
+            dt[0] = inventoryTable.Columns["InventoryID"]!;
+            inventoryTable.PrimaryKey = dt;
+            DataRow? inventoryRow = inventoryTable.Rows.Find(product.ProductID);
+            if (inventoryRow != null)
+            {
+                inventoryRow["Quantity"] = product.ProductQuantity;
+            }
+
+            SqlCommandBuilder commandBuilder = new SqlCommandBuilder(inventoryAdapter);
+            SqlCommand updateCmd = commandBuilder.GetUpdateCommand();
+
+            inventoryAdapter.UpdateCommand = updateCmd;
+            inventoryAdapter.Update(inventoryTable);
+        }
+    }
+
+    public void AddInventory(Product product, StoreFront store)
+    {
+        DataSet inventorySet = new DataSet();
+
+        using SqlConnection connection = new SqlConnection(_connectionString);
+        using SqlCommand cmd = new SqlCommand("SELECT * FROM Inventory WHERE ProductID = -1", connection);
+
+        SqlDataAdapter inventoryAdapter = new SqlDataAdapter(cmd);
+
+        inventoryAdapter.Fill(inventorySet, "InventoryTable");
+
+        DataTable? inventoryTable = inventorySet.Tables["InventoryTable"];
+        if (inventoryTable != null)
+        {
+            DataRow newRow = inventoryTable.NewRow();
+            newRow["ProductID"] = product.ProductID;
+            newRow["Quantity"] = product.ProductQuantity;
+            newRow["StoreID"] = store.StoreID;
+
+            inventoryTable.Rows.Add(newRow);
+
+            SqlCommandBuilder commandBuilder = new SqlCommandBuilder(inventoryAdapter);
+            SqlCommand insert = commandBuilder.GetInsertCommand();
+
+            inventoryAdapter.InsertCommand = insert;
+
+            inventoryAdapter.Update(inventoryTable);
+        }
+    }
+
+    public Product GetProduct(string name)
+    {
+        DataSet productSet = new DataSet();
+
+        using SqlConnection connection = new SqlConnection(_connectionString);
+        using SqlCommand cmd = new SqlCommand("SELECT * FROM Product WHERE Name = @name", connection);
+        cmd.Parameters.AddWithValue("@name", name);
+
+        SqlDataAdapter productAdapter = new SqlDataAdapter(cmd);
+
+        productAdapter.Fill(productSet, "productTable");
+
+        DataTable? productTable = productSet.Tables["productTable"];
+        if (productTable != null && productTable.Rows.Count > 0)
+        {
+            return new Product
+            {
+                ProductID = (int)productTable.Rows[0]["ProductID"],
+                ProductName = (string)productTable.Rows[0]["Name"],
+                ProductPrice = (decimal)productTable.Rows[0]["Price"]
+            };
+        }
+        return null!;
+    }
+
+    public List<Product> GetAllProducts()
+    {
+        List<Product> products = new List<Product>();
+        DataSet productSet = new DataSet();
+
+        using SqlConnection connection = new SqlConnection(_connectionString);
+        using SqlCommand cmd = new SqlCommand("SELECT * FROM Product", connection);
+
+        SqlDataAdapter productAdapter = new SqlDataAdapter(cmd);
+
+        productAdapter.Fill(productSet, "ProductTable");
+
+        DataTable? productTable = productSet.Tables["ProductTable"];
+        if (productTable != null && productTable.Rows.Count > 0)
+        {
+            foreach (DataRow row in productTable.Rows)
+            {
+                Product product = new Product
+                {
+                    ProductID = (int)row["ProductID"],
+                    ProductName = (string)row["Name"],
+                    ProductPrice = (decimal)row["Price"]
+                };
+                products.Add(product);
+            }
+            return products;
+        }
+        return null!;
+    }
 }

@@ -9,4 +9,8 @@ public interface IBusiness
     void AddStore(StoreFront store);
     StoreFront GetStore(string city);
     List<StoreFront> GetStoreFronts();
+    void AddProduct(Product product);
+    void AddProduct(Product product, StoreFront store);
+    Product GetProduct(string name);
+    List<Product> GetAllProducts();
 }
