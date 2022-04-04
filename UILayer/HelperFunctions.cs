@@ -2,6 +2,37 @@ namespace UILayer;
 
 public static class HelperFunctions
 {
+    public static Product SelectProduct(IBusiness _bl)
+    {
+        List<Product> products = _bl.GetAllProducts();
+
+        if (products == null || products.Count == 0)
+        {
+            Console.WriteLine("There are no products!");
+            return null!;
+        }
+
+        Console.WriteLine("Select a product!");
+
+    SelectProduct:
+        for (int i = 0; i < products.Count; i++)
+        {
+            Console.WriteLine($"[{i}] {products[i].ProductName}");
+        }
+
+        int index;
+
+        if (Int32.TryParse(Console.ReadLine(), out index) && (index >= 0 && index < products.Count))
+        {
+            return products[index];
+        }
+        else
+        {
+            Console.WriteLine("Enter a valid index!");
+            goto SelectProduct;
+        }
+    }
+
     public static StoreFront SelectStore(IBusiness _bl)
     {
         Console.WriteLine("Select a store!");

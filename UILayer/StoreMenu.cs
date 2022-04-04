@@ -49,6 +49,14 @@ public class StoreMenu : IMenu
 
             switch (command)
             {
+                case ('A'):
+                    AddProducttoCart();
+                    break;
+
+                case ('C'):
+                    Cart();
+                    break;
+
                 case ('Q'):
                     exit = true;
                     break;
@@ -94,7 +102,7 @@ public class StoreMenu : IMenu
 
     public void AddProduct()
     {
-        Product product = SelectProduct();
+        Product product = HelperFunctions.SelectProduct(_bl);
         if (product != null)
         {
             Console.WriteLine("Amount to add:");
@@ -116,36 +124,5 @@ public class StoreMenu : IMenu
         product.ProductPrice = InputValidation.ValidDecimal();
 
         _bl.AddProduct(product);
-    }
-
-    public Product SelectProduct()
-    {
-        List<Product> products = _bl.GetAllProducts();
-
-        if (products == null || products.Count == 0)
-        {
-            Console.WriteLine("There are no products!");
-            return null!;
-        }
-
-        Console.WriteLine("Select a product!");
-
-    SelectProduct:
-        for (int i = 0; i < products.Count; i++)
-        {
-            Console.WriteLine($"[{i}] {products[i].ProductName}");
-        }
-
-        int index;
-
-        if (Int32.TryParse(Console.ReadLine(), out index) && (index >= 0 && index < products.Count))
-        {
-            return products[index];
-        }
-        else
-        {
-            Console.WriteLine("Enter a valid index!");
-            goto SelectProduct;
-        }
     }
 }
