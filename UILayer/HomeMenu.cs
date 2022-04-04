@@ -58,7 +58,15 @@ public class HomeMenu : IMenu
 
     public void Order()
     {
-        MenuFactory.GetMenu("store").Start(_customer);
+        _store = HelperFunctions.SelectStore(_bl);
+        if (_store != null)
+        {
+            MenuFactory.GetMenu("store").Start(_customer, _store);
+        }
+        else
+        {
+            Console.WriteLine("Could not select store!");
+        }
     }
 
     public void OrderHistory()
