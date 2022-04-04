@@ -26,4 +26,5 @@ public class Customer
     public bool Employee { get; set; } = false;
     public int CustomerID { get; set; }
     public List<Order> Orders { get; set; } = new List<Order>();
+    public List<Product> Cart { get; set; } = new List<Product>();
 }

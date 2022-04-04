@@ -26,4 +26,10 @@ public class Product
     public decimal ProductPrice { get; set; }
     public int ProductQuantity { get; set; }
     public int ProductID { get; set; }
+
+    public override string ToString()
+    {
+        string qString = $"Name: {ProductName} Quantity: {ProductQuantity} Price: {ProductPrice * ProductQuantity}";
+        return qString;
+    }
 }

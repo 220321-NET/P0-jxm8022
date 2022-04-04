@@ -55,10 +55,12 @@ public class StoreMenu : IMenu
 
                 case ('C'):
                     Cart();
+                    exit = !exit;
                     break;
 
                 case ('Q'):
-                    exit = true;
+                    exit = !exit;
+                    _customer.Cart.Clear();
                     break;
 
                 default:
@@ -66,6 +68,65 @@ public class StoreMenu : IMenu
                     break;
             }
         }
+    }
+
+    public void AddProducttoCart()
+    {
+        Product product = HelperFunctions.SelectProduct(_bl);
+        if (product != null)
+        {
+            Console.WriteLine("Amount to add:");
+            product.ProductQuantity = InputValidation.ValidInteger();
+            if (product.ProductQuantity > 0)
+            {
+                _customer.Cart.Add(product);
+            }
+        }
+    }
+
+    public void Cart()
+    {
+        decimal cartTotal = new decimal();
+
+        bool exit = false;
+        while (!exit)
+        {
+            Console.WriteLine("=====================================================================");
+            Console.WriteLine("=====================================================================");
+            foreach (Product product in _customer.Cart)
+            {
+                cartTotal += product.ProductPrice * product.ProductQuantity;
+                Console.WriteLine(product.ToString());
+            }
+            Console.WriteLine($"Cart total: {cartTotal}");
+            Console.WriteLine("=====================================================================");
+            Console.WriteLine("=====================================================================");
+            Console.WriteLine("Enter a command: (A)dd Products -- (P)urchase Cart -- (C)lear Cart");
+            switch (InputValidation.ValidString().Trim().ToUpper()[0])
+            {
+                case ('A'):
+                    AddProducttoCart();
+                    break;
+
+                case ('P'):
+                    PurchaseCart();
+                    break;
+
+                case ('C'):
+                    _customer.Cart.Clear();
+                    exit = !exit;
+                    break;
+
+                default:
+                    Console.WriteLine("Incorrect command!");
+                    break;
+            }
+        }
+    }
+
+    public void PurchaseCart()
+    {
+
     }
 
     public void ManagerStoreMenu()
