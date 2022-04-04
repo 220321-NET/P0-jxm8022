@@ -3,6 +3,8 @@ namespace UILayer;
 public class ManagerMenu : IMenu
 {
     private readonly IBusiness _bl;
+    private Customer _customer = new Customer();
+    private StoreFront _store = new StoreFront();
 
     public ManagerMenu(IBusiness bl)
     {
@@ -48,15 +50,29 @@ public class ManagerMenu : IMenu
         }
     }
 
+    public void Start(Customer customer)
+    {
+        _customer = customer;
+        Start();
+    }
+
+    public void Start(Customer customer, StoreFront store)
+    {
+        _customer = customer;
+        _store = store;
+        Start();
+    }
+
     public StoreFront SelectStore()
     {
         Console.WriteLine("Select a store!");
 
         List<StoreFront> storeFronts = _bl.GetStoreFronts();
 
-        if (storeFronts.Count == 0)
+        if (storeFronts == null || storeFronts.Count == 0)
         {
             Console.WriteLine("There are no stores!");
+            return null!;
         }
 
     SelectStore:
@@ -104,10 +120,10 @@ public class ManagerMenu : IMenu
     public void AddInventory()
     {
         Console.WriteLine("Adding inventory to store!");
-        StoreFront store = SelectStore();
-        if (store != null)
+        _store = SelectStore();
+        if (_store != null)
         {
-            MenuFactory.GetMenu("store").Start();
+            MenuFactory.GetMenu("store").Start(_customer, _store);
         }
     }
 
@@ -160,7 +176,14 @@ public class ManagerMenu : IMenu
         Customer customer = SelectEmployee(employee);
         if (customer != null)
         {
-            _bl.UpdateCustomer(customer);
+            if (customer.UserName == _customer.UserName)
+            {
+                Console.WriteLine("Cannot remove yourself!");
+            }
+            else
+            {
+                _bl.UpdateCustomer(customer);
+            }
         }
     }
 }

@@ -4,6 +4,8 @@ namespace UILayer;
 public class MainMenu : IMenu
 {
     private readonly IBusiness _bl;
+    private Customer _customer = new Customer();
+    private StoreFront _store = new StoreFront();
     public MainMenu(IBusiness bl)
     {
         _bl = bl;
@@ -69,6 +71,19 @@ public class MainMenu : IMenu
         }
     }
 
+    public void Start(Customer customer)
+    {
+        _customer = customer;
+        Start();
+    }
+
+    public void Start(Customer customer, StoreFront store)
+    {
+        _customer = customer;
+        _store = store;
+        Start();
+    }
+
     /// <summary>
     /// Method to handle sign up when there is a new user
     /// </summary>
@@ -111,21 +126,16 @@ public class MainMenu : IMenu
         Console.WriteLine("Log In!");
         Console.WriteLine("Username: ");
         username = InputValidation.ValidString();
-    Login:
-        Console.WriteLine("Confirm username:");
-        if (username == InputValidation.ValidString())
+        Customer customer = new Customer();
+        customer = _bl.GetCustomer(username);
+        customer.Employee = false;
+        if (customer != null)
         {
-            Customer customer = new Customer();
-            customer = _bl.GetCustomer(username);
-            if (customer == null)
-            {
-                Console.WriteLine("Customer does not exists!");
-            }
+            MenuFactory.GetMenu("home").Start(customer);
         }
         else
         {
-            Console.WriteLine("Username does not match!");
-            goto Login;
+            Console.WriteLine("Customer does not exists!");
         }
     }
 
@@ -136,29 +146,19 @@ public class MainMenu : IMenu
         Console.WriteLine("Employee Log In!");
         Console.WriteLine("Username: ");
         username = InputValidation.ValidString();
-    Login:
-        Console.WriteLine("Confirm username:");
-        if (username == InputValidation.ValidString())
+        Customer customer = new Customer();
+        customer = _bl.GetCustomer(username);
+        if (customer == null)
         {
-            Customer customer = new Customer();
-            customer = _bl.GetCustomer(username);
-            if (customer == null)
-            {
-                Console.WriteLine("Employee does not exists!");
-            }
-            else if (customer.Employee)
-            {
-                MenuFactory.GetMenu("manager").Start();
-            }
-            else
-            {
-                Console.WriteLine("User is not an employee!");
-            }
+            Console.WriteLine("Employee does not exists!");
+        }
+        else if (customer.Employee)
+        {
+            MenuFactory.GetMenu("manager").Start(customer);
         }
         else
         {
-            Console.WriteLine("Username does not match!");
-            goto Login;
+            Console.WriteLine("User is not an employee!");
         }
     }
 }

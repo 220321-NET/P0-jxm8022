@@ -3,6 +3,8 @@ namespace UILayer;
 public class HomeMenu : IMenu
 {
     private readonly IBusiness _bl;
+    private Customer _customer = new Customer();
+    private StoreFront _store = new StoreFront();
 
     public HomeMenu(IBusiness bl)
     {
@@ -41,9 +43,22 @@ public class HomeMenu : IMenu
         }
     }
 
+    public void Start(Customer customer)
+    {
+        _customer = customer;
+        Start();
+    }
+
+    public void Start(Customer customer, StoreFront store)
+    {
+        _customer = customer;
+        _store = store;
+        Start();
+    }
+
     public void Order()
     {
-
+        MenuFactory.GetMenu("store").Start(_customer);
     }
 
     public void OrderHistory()
