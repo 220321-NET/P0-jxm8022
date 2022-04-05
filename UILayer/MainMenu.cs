@@ -117,6 +117,7 @@ public class MainMenu : IMenu
                 try
                 {
                     _bl.AddCustomer(customer);
+                    customer = _bl.GetCustomer(username);
                 }
                 catch (SqlException ex)
                 {
