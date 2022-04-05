@@ -113,4 +113,27 @@ public class DBRepository : IRepository
     {
         DBOrder.AddOrder(products, store, customer, _connectionString);
     }
+
+    public List<Order> GetAllOrders(Customer customer)
+    {
+        List<int> customerOrderIds = DBOrder.GetTransactionIDs(customer, _connectionString);
+        if (customerOrderIds != null)
+        {
+            List<Order> orders = new List<Order>();
+            foreach (int id in customerOrderIds)
+            {
+                Order order = DBOrder.GetOrder(id, customer, _connectionString);
+                if (order != null && order.Products.Count > 0)
+                {
+                    orders.Add(order);
+                }
+            }
+            return orders;
+        }
+        else
+        {
+            Console.WriteLine("Could not retrieve customer order ids!");
+        }
+        return null!;
+    }
 }

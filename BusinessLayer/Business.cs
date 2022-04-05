@@ -73,4 +73,9 @@ public class Business : IBusiness
     {
         _repo.AddOrder(products, store, customer);
     }
+
+    public List<Order> GetAllOrders(Customer customer)
+    {
+        return _repo.GetAllOrders(customer);
+    }
 }

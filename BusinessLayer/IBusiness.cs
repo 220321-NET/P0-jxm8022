@@ -15,4 +15,5 @@ public interface IBusiness
     List<Product> GetAllProducts();
     List<Product> GetAllProducts(StoreFront store);
     void AddOrder(List<Product> products, StoreFront store, Customer customer);
+    List<Order> GetAllOrders(Customer customer);
 }
