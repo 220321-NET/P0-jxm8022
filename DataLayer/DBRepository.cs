@@ -132,7 +132,9 @@ public class DBRepository : IRepository
         }
         else
         {
-            Console.WriteLine("Could not retrieve customer order ids!");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Customer has no orders!");
+            Console.ForegroundColor = ConsoleColor.Gray;
         }
         return null!;
     }

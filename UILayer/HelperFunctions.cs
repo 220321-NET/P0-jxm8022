@@ -8,7 +8,9 @@ public static class HelperFunctions
 
         if (products == null || products.Count == 0)
         {
+            Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("There are no products!");
+            Console.ForegroundColor = ConsoleColor.Gray;
             return null!;
         }
 
@@ -28,7 +30,9 @@ public static class HelperFunctions
         }
         else
         {
+            Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("Enter a valid index!");
+            Console.ForegroundColor = ConsoleColor.Gray;
             goto SelectProduct;
         }
     }
@@ -39,7 +43,9 @@ public static class HelperFunctions
 
         if (products == null || products.Count == 0)
         {
+            Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("There are no products!");
+            Console.ForegroundColor = ConsoleColor.Gray;
             return null!;
         }
 
@@ -59,7 +65,9 @@ public static class HelperFunctions
         }
         else
         {
+            Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("Enter a valid index!");
+            Console.ForegroundColor = ConsoleColor.Gray;
             goto SelectProduct;
         }
     }
@@ -72,7 +80,9 @@ public static class HelperFunctions
 
         if (storeFronts == null || storeFronts.Count == 0)
         {
+            Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("There are no stores!");
+            Console.ForegroundColor = ConsoleColor.Gray;
             return null!;
         }
 
@@ -90,7 +100,9 @@ public static class HelperFunctions
         }
         else
         {
+            Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("Enter a valid index!");
+            Console.ForegroundColor = ConsoleColor.Gray;
             goto SelectStore;
         }
     }
