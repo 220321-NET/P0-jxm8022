@@ -80,7 +80,7 @@ public class HomeMenu : IMenu
         {
             _customer.Orders = orders;
             Console.WriteLine("=====================================================================");
-            Console.WriteLine("=====================================================================");
+            Console.WriteLine("=====================================================================\n");
             Console.ForegroundColor = ConsoleColor.Green;
             foreach (Order order in _customer.Orders)
             {
