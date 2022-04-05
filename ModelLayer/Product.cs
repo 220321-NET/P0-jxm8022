@@ -29,7 +29,7 @@ public class Product
 
     public override string ToString()
     {
-        string qString = $"Name: {ProductName} Quantity: {ProductQuantity} Price: {ProductPrice * ProductQuantity}";
-        return qString;
+        string productString = $"Name: {ProductName} Quantity: {ProductQuantity} Price: {ProductPrice * ProductQuantity}";
+        return productString;
     }
 }
