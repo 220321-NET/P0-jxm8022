@@ -52,6 +52,7 @@ public class StoreMenu : IMenu
             {
                 case ('C'):
                     Cart();
+                    exit = !exit;
                     break;
 
                 case ('Q'):
@@ -60,7 +61,9 @@ public class StoreMenu : IMenu
                     break;
 
                 default:
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Incorrect command!");
+                    Console.ForegroundColor = ConsoleColor.Gray;
                     break;
             }
         }
@@ -107,14 +110,16 @@ public class StoreMenu : IMenu
         {
             Console.WriteLine("=====================================================================");
             Console.WriteLine("=====================================================================");
+            Console.ForegroundColor = ConsoleColor.Yellow;
             foreach (Product product in _customer.Cart)
             {
                 Console.WriteLine(product.ToString());
             }
             Console.WriteLine($"Cart total: {_customer.CartTotal}");
+            Console.ForegroundColor = ConsoleColor.Gray;
             Console.WriteLine("=====================================================================");
             Console.WriteLine("=====================================================================");
-            Console.WriteLine("Enter a command: (A)dd Products -- (P)urchase Cart -- (C)lear Cart");
+            Console.WriteLine("Enter a command: (A)dd Products -- (P)urchase Cart -- (Q)uit and Clear Cart");
             switch (InputValidation.ValidString().Trim().ToUpper()[0])
             {
                 case ('A'):
@@ -122,26 +127,42 @@ public class StoreMenu : IMenu
                     break;
 
                 case ('P'):
-                    PurchaseCart();
-                    _customer.Cart.Clear();
-                    exit = !exit;
+                    if (PurchaseCart())
+                    {
+                        _customer.Cart.Clear();
+                        exit = !exit;
+                    }
                     break;
 
-                case ('C'):
+                case ('Q'):
                     _customer.Cart.Clear();
                     exit = !exit;
                     break;
 
                 default:
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Incorrect command!");
+                    Console.ForegroundColor = ConsoleColor.Gray;
                     break;
             }
         }
     }
 
-    public void PurchaseCart()
+    public bool PurchaseCart()
     {
-        _bl.AddOrder(_customer.Cart, _store, _customer);
+        try
+        {
+            _bl.AddOrder(_customer.Cart, _store, _customer);
+            return true;
+        }
+        catch (SqlException ex)
+        {
+            Console.WriteLine(ex.Message);
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Had trouble with the database! Try again!");
+            Console.ForegroundColor = ConsoleColor.Gray;
+            return false;
+        }
     }
 
     public void ManagerStoreMenu()
@@ -187,7 +208,9 @@ public class StoreMenu : IMenu
                     break;
 
                 default:
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Incorrect command!");
+                    Console.ForegroundColor = ConsoleColor.Gray;
                     break;
             }
         }
@@ -199,8 +222,30 @@ public class StoreMenu : IMenu
         if (product != null)
         {
             Console.WriteLine("Amount to add:");
-            product.ProductQuantity = InputValidation.ValidInteger();
-            _bl.AddProduct(product, _store);
+            int quantity = InputValidation.ValidInteger();
+
+            if (quantity < 1000)
+            {
+                product.ProductQuantity = quantity;
+                try
+                {
+                    _bl.AddProduct(product, _store);
+                }
+                catch (SqlException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Had trouble adding product to inventory!");
+                    Console.ForegroundColor = ConsoleColor.Gray;
+                    ManagerStoreMenu();
+                }
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Enter a reasonable amount!");
+                Console.ForegroundColor = ConsoleColor.Gray;
+            }
         }
     }
 
@@ -214,8 +259,29 @@ public class StoreMenu : IMenu
         product.ProductName = InputValidation.ValidString().ToLower();
 
         Console.WriteLine("Enter the price:");
-        product.ProductPrice = InputValidation.ValidDecimal();
+        decimal price = InputValidation.ValidDecimal();
 
-        _bl.AddProduct(product);
+        if (price < 10000)
+        {
+            product.ProductPrice = price;
+            try
+            {
+                _bl.AddProduct(product);
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Had trouble creating product!");
+                Console.ForegroundColor = ConsoleColor.Gray;
+                ManagerStoreMenu();
+            }
+        }
+        else
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Enter a reasonable price!");
+            Console.ForegroundColor = ConsoleColor.Gray;
+        }
     }
 }

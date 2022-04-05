@@ -97,7 +97,15 @@ public class MainMenu : IMenu
 
         Console.WriteLine("Sign Up!");
         Console.WriteLine("Username: ");
+    Retry:
         username = InputValidation.ValidString();
+        if (username.Length > 30)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Username is too long!");
+            Console.ForegroundColor = ConsoleColor.Gray;
+            goto Retry;
+        }
     SignUp:
         Console.WriteLine("Confirm username:");
         if (username == InputValidation.ValidString())
@@ -106,7 +114,18 @@ public class MainMenu : IMenu
             {
                 Customer customer = new Customer();
                 customer.UserName = username;
-                _bl.AddCustomer(customer);
+                try
+                {
+                    _bl.AddCustomer(customer);
+                }
+                catch (SqlException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Could not connect to database!");
+                    Console.ForegroundColor = ConsoleColor.Gray;
+                    Start();
+                }
                 MenuFactory.GetMenu("home").Start(customer);
             }
             else
@@ -136,7 +155,18 @@ public class MainMenu : IMenu
         Console.WriteLine("Username: ");
         username = InputValidation.ValidString();
         Customer customer = new Customer();
-        customer = _bl.GetCustomer(username);
+        try
+        {
+            customer = _bl.GetCustomer(username);
+        }
+        catch (SqlException ex)
+        {
+            Console.WriteLine(ex.Message);
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Could not connect to database!");
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Start();
+        }
         if (customer != null)
         {
             customer.Employee = false;
@@ -158,7 +188,18 @@ public class MainMenu : IMenu
         Console.WriteLine("Username: ");
         username = InputValidation.ValidString();
         Customer customer = new Customer();
-        customer = _bl.GetCustomer(username);
+        try
+        {
+            customer = _bl.GetCustomer(username);
+        }
+        catch (SqlException ex)
+        {
+            Console.WriteLine(ex.Message);
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Could not connect to database!");
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Start();
+        }
         if (customer == null)
         {
             Console.ForegroundColor = ConsoleColor.Red;

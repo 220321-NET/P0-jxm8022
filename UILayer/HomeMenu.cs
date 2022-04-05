@@ -81,10 +81,12 @@ public class HomeMenu : IMenu
             _customer.Orders = orders;
             Console.WriteLine("=====================================================================");
             Console.WriteLine("=====================================================================");
+            Console.ForegroundColor = ConsoleColor.Green;
             foreach (Order order in _customer.Orders)
             {
                 Console.WriteLine(order.ToString());
             }
+            Console.ForegroundColor = ConsoleColor.Gray;
             Console.WriteLine("=====================================================================");
             Console.WriteLine("=====================================================================");
         }

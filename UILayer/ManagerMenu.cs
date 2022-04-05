@@ -69,8 +69,17 @@ public class ManagerMenu : IMenu
         Console.WriteLine("Adding new store!");
         Console.WriteLine("Enter the city:");
         string city = InputValidation.ValidString().ToLower();
+    EnterState:
         Console.WriteLine("Enter the state(XX):");
         string state = InputValidation.ValidString().ToUpper();
+
+        if (state.Length > 2)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("State is more than two characters long!");
+            Console.ForegroundColor = ConsoleColor.Gray;
+            goto EnterState;
+        }
 
         if (_bl.GetStore(city) == null)
         {
