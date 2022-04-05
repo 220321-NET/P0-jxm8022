@@ -59,10 +59,14 @@ public class DBRepository : IRepository
         if (product != null)
         {
             product.ProductQuantity = amount;
-            if (PreviousInventory(product.ProductID) != -1)
+            if (PreviousInventory(product.ProductID, store) != -1)
             {
-                product.ProductQuantity += PreviousInventory(product.ProductID);
-                UpdateInventory(product);
+                product.ProductQuantity += PreviousInventory(product.ProductID, store);
+                if (DBInventory.GetInventoryID(product, store, _connectionString) != -1)
+                {
+                    store.InventoryID = DBInventory.GetInventoryID(product, store, _connectionString);
+                }
+                UpdateInventory(product, store);
             }
             else
             {
@@ -75,14 +79,14 @@ public class DBRepository : IRepository
         }
     }
 
-    public int PreviousInventory(int id)
+    public int PreviousInventory(int id, StoreFront store)
     {
-        return DBInventory.PreviousInventory(id, _connectionString);
+        return DBInventory.PreviousInventory(id, store, _connectionString);
     }
 
-    public void UpdateInventory(Product product)
+    public void UpdateInventory(Product product, StoreFront store)
     {
-        DBInventory.UpdateInventory(product, _connectionString);
+        DBInventory.UpdateInventory(product, store, _connectionString);
     }
 
     public void AddInventory(Product product, StoreFront store)
@@ -98,5 +102,15 @@ public class DBRepository : IRepository
     public List<Product> GetAllProducts()
     {
         return DBProduct.GetAllProducts(_connectionString);
+    }
+
+    public List<Product> GetAllProducts(StoreFront store)
+    {
+        return DBProduct.GetAllProducts(store, _connectionString);
+    }
+
+    public void AddOrder(List<Product> products, StoreFront store, Customer customer)
+    {
+        DBOrder.AddOrder(products, store, customer, _connectionString);
     }
 }

@@ -89,4 +89,36 @@ public static class DBProduct
         }
         return null!;
     }
+
+    public static List<Product> GetAllProducts(StoreFront store, string _connectionString)
+    {
+        List<Product> products = new List<Product>();
+        DataSet productSet = new DataSet();
+
+        using SqlConnection connection = new SqlConnection(_connectionString);
+        using SqlCommand cmd = new SqlCommand("SELECT Product.ProductID as ProductID, Name, Price, Quantity FROM Product INNER JOIN Inventory ON Product.ProductID = Inventory.ProductID WHERE StoreID = @id", connection);
+        cmd.Parameters.AddWithValue("@id", store.StoreID);
+
+        SqlDataAdapter productAdapter = new SqlDataAdapter(cmd);
+
+        productAdapter.Fill(productSet, "ProductTable");
+
+        DataTable? productTable = productSet.Tables["ProductTable"];
+        if (productTable != null && productTable.Rows.Count > 0)
+        {
+            foreach (DataRow row in productTable.Rows)
+            {
+                Product product = new Product
+                {
+                    ProductID = (int)row["ProductID"],
+                    ProductName = (string)row["Name"],
+                    ProductPrice = (decimal)row["Price"],
+                    ProductQuantity = (int)row["Quantity"]
+                };
+                products.Add(product);
+            }
+            return products;
+        }
+        return null!;
+    }
 }

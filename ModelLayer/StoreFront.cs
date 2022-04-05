@@ -8,5 +8,7 @@ public class StoreFront
 
     public string State { get; set; } = "";
 
-    List<Product> Inventory { get; set; } = new List<Product>();
+    public int InventoryID { get; set; } = -1;
+
+    public List<Product> Inventory { get; set; } = new List<Product>();
 }

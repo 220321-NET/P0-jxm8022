@@ -63,4 +63,14 @@ public class Business : IBusiness
     {
         return _repo.GetAllProducts();
     }
+
+    public List<Product> GetAllProducts(StoreFront store)
+    {
+        return _repo.GetAllProducts(store);
+    }
+
+    public void AddOrder(List<Product> products, StoreFront store, Customer customer)
+    {
+        _repo.AddOrder(products, store, customer);
+    }
 }
