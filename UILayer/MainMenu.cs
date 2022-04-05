@@ -15,6 +15,7 @@ public class MainMenu : IMenu
     /// </summary>
     public void StoreTitle()
     {
+        Console.ForegroundColor = ConsoleColor.Blue;
         Console.WriteLine("================================================================================================================================");
         Console.WriteLine("================================================================================================================================");
         Console.WriteLine(" **********           **                                                              ********    **                            ");
@@ -27,6 +28,7 @@ public class MainMenu : IMenu
         Console.WriteLine("    //      //////  ///   //////  //////    /////    //////   //        //////      ////////      //   //////   ///      ////// ");
         Console.WriteLine("================================================================================================================================");
         Console.WriteLine("================================================================================================================================");
+        Console.ForegroundColor = ConsoleColor.Gray;
         Console.WriteLine("\nWelcome to Telescope Store!\n");
     }
 
@@ -65,7 +67,9 @@ public class MainMenu : IMenu
                     break;
 
                 default:
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Incorrect command!");
+                    Console.ForegroundColor = ConsoleColor.Gray;
                     break;
             }
         }
@@ -107,12 +111,16 @@ public class MainMenu : IMenu
             }
             else
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("User already exists!");
+                Console.ForegroundColor = ConsoleColor.Gray;
             }
         }
         else
         {
+            Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("Username does not match!");
+            Console.ForegroundColor = ConsoleColor.Gray;
             goto SignUp;
         }
     }
@@ -136,7 +144,9 @@ public class MainMenu : IMenu
         }
         else
         {
+            Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("Customer does not exists!");
+            Console.ForegroundColor = ConsoleColor.Gray;
         }
     }
 
@@ -151,7 +161,9 @@ public class MainMenu : IMenu
         customer = _bl.GetCustomer(username);
         if (customer == null)
         {
+            Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("Employee does not exists!");
+            Console.ForegroundColor = ConsoleColor.Gray;
         }
         else if (customer.Employee)
         {
@@ -159,7 +171,9 @@ public class MainMenu : IMenu
         }
         else
         {
+            Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("User is not an employee!");
+            Console.ForegroundColor = ConsoleColor.Gray;
         }
     }
 }

@@ -13,7 +13,9 @@ public static class InputValidation
 
         if (String.IsNullOrWhiteSpace(valid))
         {
-            Console.WriteLine("Enter a valid input: ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Enter a valid input!");
+            Console.ForegroundColor = ConsoleColor.Gray;
             goto EnterString;
         }
         return valid;
@@ -30,7 +32,9 @@ public static class InputValidation
         }
         else
         {
+            Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("Enter a valid input!");
+            Console.ForegroundColor = ConsoleColor.Gray;
             goto EnterInteger;
         }
     }
@@ -46,7 +50,9 @@ public static class InputValidation
         }
         else
         {
+            Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("Enter a valid input!");
+            Console.ForegroundColor = ConsoleColor.Gray;
             goto EnterDecimal;
         }
     }

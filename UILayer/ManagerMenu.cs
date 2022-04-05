@@ -44,7 +44,9 @@ public class ManagerMenu : IMenu
                     break;
 
                 default:
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Incorrect command!");
+                    Console.ForegroundColor = ConsoleColor.Gray;
                     break;
             }
         }
@@ -81,7 +83,9 @@ public class ManagerMenu : IMenu
         }
         else
         {
+            Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("The city already exists!");
+            Console.ForegroundColor = ConsoleColor.Gray;
         }
     }
 
@@ -103,7 +107,9 @@ public class ManagerMenu : IMenu
 
         if (customers == null || customers.Count == 0)
         {
+            Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("There are no customers!");
+            Console.ForegroundColor = ConsoleColor.Gray;
             return null!;
         }
 
@@ -121,7 +127,9 @@ public class ManagerMenu : IMenu
         }
         else
         {
+            Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("Enter a valid index!");
+            Console.ForegroundColor = ConsoleColor.Gray;
             goto SelectEmployee;
         }
     }
@@ -146,7 +154,9 @@ public class ManagerMenu : IMenu
         {
             if (customer.UserName == _customer.UserName)
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Cannot remove yourself!");
+                Console.ForegroundColor = ConsoleColor.Gray;
             }
             else
             {

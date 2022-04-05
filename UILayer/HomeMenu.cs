@@ -37,7 +37,9 @@ public class HomeMenu : IMenu
                     break;
 
                 default:
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Incorrect command!");
+                    Console.ForegroundColor = ConsoleColor.Gray;
                     break;
             }
         }
@@ -65,12 +67,26 @@ public class HomeMenu : IMenu
         }
         else
         {
+            Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("Could not select store!");
+            Console.ForegroundColor = ConsoleColor.Gray;
         }
     }
 
     public void OrderHistory()
     {
-
+        List<Order> orders = _bl.GetAllOrders(_customer);
+        if (orders != null)
+        {
+            _customer.Orders = orders;
+            Console.WriteLine("=====================================================================");
+            Console.WriteLine("=====================================================================");
+            foreach (Order order in _customer.Orders)
+            {
+                Console.WriteLine(order.ToString());
+            }
+            Console.WriteLine("=====================================================================");
+            Console.WriteLine("=====================================================================");
+        }
     }
 }
