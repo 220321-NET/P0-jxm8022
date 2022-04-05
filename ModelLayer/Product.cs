@@ -24,7 +24,7 @@ public class Product
         }
     }
     public decimal ProductPrice { get; set; }
-    public int ProductQuantity { get; set; }
+    public int ProductQuantity { get; set; } = 0;
     public int ProductID { get; set; }
 
     public override string ToString()

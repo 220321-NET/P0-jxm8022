@@ -27,4 +27,5 @@ public class Customer
     public int CustomerID { get; set; }
     public List<Order> Orders { get; set; } = new List<Order>();
     public List<Product> Cart { get; set; } = new List<Product>();
+    public decimal CartTotal { get; set; }
 }
