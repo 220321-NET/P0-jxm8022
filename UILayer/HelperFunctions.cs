@@ -17,7 +17,38 @@ public static class HelperFunctions
     SelectProduct:
         for (int i = 0; i < products.Count; i++)
         {
-            Console.WriteLine($"[{i}] {products[i].ProductName}");
+            Console.WriteLine($"[{i}] {products[i].ProductName} {products[i].ProductPrice}");
+        }
+
+        int index;
+
+        if (Int32.TryParse(Console.ReadLine(), out index) && (index >= 0 && index < products.Count))
+        {
+            return products[index];
+        }
+        else
+        {
+            Console.WriteLine("Enter a valid index!");
+            goto SelectProduct;
+        }
+    }
+
+    public static Product SelectProduct(IBusiness _bl, StoreFront _store)
+    {
+        List<Product> products = _bl.GetAllProducts(_store);
+
+        if (products == null || products.Count == 0)
+        {
+            Console.WriteLine("There are no products!");
+            return null!;
+        }
+
+        Console.WriteLine("Select a product!");
+
+    SelectProduct:
+        for (int i = 0; i < products.Count; i++)
+        {
+            Console.WriteLine($"[{i}] {products[i].ProductName} {products[i].ProductPrice} Stock: {products[i].ProductQuantity}");
         }
 
         int index;
