@@ -129,9 +129,9 @@ public class MainMenu : IMenu
         username = InputValidation.ValidString();
         Customer customer = new Customer();
         customer = _bl.GetCustomer(username);
-        customer.Employee = false;
         if (customer != null)
         {
+            customer.Employee = false;
             MenuFactory.GetMenu("home").Start(customer);
         }
         else
