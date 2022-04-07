@@ -47,7 +47,7 @@ public static class DBOrder
         foreach (Product product in products)
         {
             store.InventoryID = DBInventory.GetInventoryID(product, store, _connectionString);
-            product.ProductQuantity = store.Inventory.Find(x => x.ProductName == product.ProductName).ProductQuantity;
+            product.ProductQuantity = store.Inventory.Find(x => x.ProductName == product.ProductName)!.ProductQuantity;
             DBInventory.UpdateInventory(product, store, _connectionString);
         }
     }

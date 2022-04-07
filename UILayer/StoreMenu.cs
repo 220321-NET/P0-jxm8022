@@ -79,11 +79,11 @@ public class StoreMenu : IMenu
         {
             Console.WriteLine("Amount to add:");
             int amount = InputValidation.ValidInteger();
-            int maxAmount = _store.Inventory.Find(x => x.ProductName == product.ProductName).ProductQuantity;
+            int maxAmount = _store.Inventory.Find(x => x.ProductName == product.ProductName)!.ProductQuantity;
             if (amount > 0 && amount <= maxAmount)
             {
                 product.ProductQuantity = amount;
-                _store.Inventory.Find(x => x.ProductName == product.ProductName).ProductQuantity -= amount;
+                _store.Inventory.Find(x => x.ProductName == product.ProductName)!.ProductQuantity -= amount;
                 _customer.CartTotal += product.ProductPrice * product.ProductQuantity;
                 _customer.Cart.Add(product);
             }
