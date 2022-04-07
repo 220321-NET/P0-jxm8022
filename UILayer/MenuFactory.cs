@@ -7,6 +7,7 @@ public static class MenuFactory
         menu = menu.ToLower();
 
         string connectionString = File.ReadAllText("./connectionString.txt");
+        Log.Logger = new LoggerConfiguration().MinimumLevel.Debug().WriteTo.File("../logs/telescopeLogs.txt").CreateLogger();
 
         IRepository repo = new DBRepository(connectionString);
         IBusiness bl = new Business(repo);
@@ -14,15 +15,15 @@ public static class MenuFactory
         switch (menu)
         {
             case "main":
-                return new MainMenu(bl);
+                return new MainMenu(bl, Log.Logger);
             case "home":
-                return new HomeMenu(bl);
+                return new HomeMenu(bl, Log.Logger);
             case "manager":
-                return new ManagerMenu(bl);
+                return new ManagerMenu(bl, Log.Logger);
             case "store":
-                return new StoreMenu(bl);
+                return new StoreMenu(bl, Log.Logger);
             default:
-                return new MainMenu(bl);
+                return new MainMenu(bl, Log.Logger);
         }
     }
 }

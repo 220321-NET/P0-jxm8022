@@ -4,11 +4,13 @@ namespace UILayer;
 public class MainMenu : IMenu
 {
     private readonly IBusiness _bl;
+    private readonly ILogger _logger;
     private Customer _customer = new Customer();
     private StoreFront _store = new StoreFront();
-    public MainMenu(IBusiness bl)
+    public MainMenu(IBusiness bl, ILogger logger)
     {
         _bl = bl;
+        _logger = logger;
     }
     /// <summary>
     /// Method to hold the title of the store(Telescope Store). Used to spice things up.
@@ -37,6 +39,7 @@ public class MainMenu : IMenu
     /// </summary>
     public void Start()
     {
+        _logger.Information("Starting telescope store!");
         bool exit = false;
 
         StoreTitle();
@@ -73,6 +76,8 @@ public class MainMenu : IMenu
                     break;
             }
         }
+        _logger.Information("Closing telescope store!");
+        Log.CloseAndFlush();
     }
 
     public void Start(Customer customer)
@@ -121,7 +126,7 @@ public class MainMenu : IMenu
                 }
                 catch (SqlException ex)
                 {
-                    Console.WriteLine(ex.Message);
+                    _logger.Error(ex.Message);
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Could not connect to database!");
                     Console.ForegroundColor = ConsoleColor.Gray;
@@ -162,7 +167,7 @@ public class MainMenu : IMenu
         }
         catch (SqlException ex)
         {
-            Console.WriteLine(ex.Message);
+            _logger.Error(ex.Message);
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("Could not connect to database!");
             Console.ForegroundColor = ConsoleColor.Gray;
@@ -195,7 +200,7 @@ public class MainMenu : IMenu
         }
         catch (SqlException ex)
         {
-            Console.WriteLine(ex.Message);
+            _logger.Error(ex.Message);
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("Could not connect to database!");
             Console.ForegroundColor = ConsoleColor.Gray;

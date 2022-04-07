@@ -3,12 +3,14 @@ namespace UILayer;
 public class ManagerMenu : IMenu
 {
     private readonly IBusiness _bl;
+    private readonly ILogger _logger;
     private Customer _customer = new Customer();
     private StoreFront _store = new StoreFront();
 
-    public ManagerMenu(IBusiness bl)
+    public ManagerMenu(IBusiness bl, ILogger logger)
     {
         _bl = bl;
+        _logger = logger;
     }
     public void Start()
     {

@@ -3,12 +3,14 @@ namespace UILayer;
 public class StoreMenu : IMenu
 {
     private readonly IBusiness _bl;
+    private readonly ILogger _logger;
     private Customer _customer = new Customer();
     private StoreFront _store = new StoreFront();
 
-    public StoreMenu(IBusiness bl)
+    public StoreMenu(IBusiness bl, ILogger logger)
     {
         _bl = bl;
+        _logger = logger;
     }
 
     public void Start()
@@ -157,7 +159,7 @@ public class StoreMenu : IMenu
         }
         catch (SqlException ex)
         {
-            Console.WriteLine(ex.Message);
+            _logger.Error(ex.Message);
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("Had trouble with the database! Try again!");
             Console.ForegroundColor = ConsoleColor.Gray;
@@ -233,7 +235,7 @@ public class StoreMenu : IMenu
                 }
                 catch (SqlException ex)
                 {
-                    Console.WriteLine(ex.Message);
+                    _logger.Error(ex.Message);
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Had trouble adding product to inventory!");
                     Console.ForegroundColor = ConsoleColor.Gray;
@@ -270,7 +272,7 @@ public class StoreMenu : IMenu
             }
             catch (SqlException ex)
             {
-                Console.WriteLine(ex.Message);
+                _logger.Error(ex.Message);
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Had trouble creating product!");
                 Console.ForegroundColor = ConsoleColor.Gray;
