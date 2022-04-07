@@ -2,7 +2,7 @@
 
 public class StoreFront
 {
-    public int StoreID { get; set; }
+    public int StoreID { get; set; } = -1;
 
     public string City { get; set; } = "";
 

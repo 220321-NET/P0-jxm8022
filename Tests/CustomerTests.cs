@@ -102,6 +102,7 @@ public class CustomerTests
 
         Assert.NotNull(testCustomer.Cart);
         Assert.NotEmpty(testCustomer.Cart);
+        Assert.Equal(2, testCustomer.Cart.Count);
     }
 
     [Fact]
