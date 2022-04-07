@@ -9,6 +9,7 @@ The Telescope Store app is a console software application that helps customers p
 * C#
 * Azure Sql Database
 * .NET
+* Xunit
 
 ## Functionality
 
