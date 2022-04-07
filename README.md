@@ -2,27 +2,31 @@
 
 ## Overview
 
-The Telescope Store app is a software application that helps customers purchase telescopes and accessories.
+The Telescope Store app is a console software application that helps customers purchase telescopes and accessories. Below is the code stack used to create the application:
+
+### Code Stack
+
+* C#
+* Azure Sql Database
+* .NET
 
 ## Functionality
 
-The user can sign up. This allows them to have an account to the store.
+* The user can sign up. This allows them to have an account to the store.
 
-The user can log in. This allows them to access their account that is connected to the store.
+* The user can log in. This allows them to access their account that is connected to the store.
 
-The user can view the current inventory.
+* The user can view the current inventory.
 
-The user can place orders.
+* The user can place orders.
 
-Orders consists of multiple products.
+* Orders consists of multiple products.
 
-When purchased, the user can view their order history.
+* When purchased, the user can view their order history.
 
-The order history can be filtered to show the location of the purchased products.
+* The order history displays the details of the orders.
 
-The order history can also be sorted by date or cost.
-
-The manager is able to replenish inventory.
+* The manager is able to replenish inventory.
 
 ### Note
 
